@@ -22,7 +22,7 @@
 
 
 ////
-#define DISABLE_GUI
+//#define DISABLE_GUI
 #define ALSAMIDIIN
 #define NONEMIDIIN
 #define OS_LINUX
@@ -69,7 +69,9 @@ extern Dump dump;
 #endif
 
 #ifndef DISABLE_GUI
-#include "UI/MasterUI.h"
+#include <QApplication>
+#include "NewUI/masterui.h"
+QApplication *app;
 MasterUI *ui;
 #endif
 
@@ -191,8 +193,11 @@ void *thread2(void *arg){
  
 void *thread3(void *arg){
 #ifndef DISABLE_GUI
-    ui->showUI();
-    while (Pexitprogram==0) Fl::wait();
+	app = new QApplication(0, 0);
+    ui=new MasterUI(master, 0);
+    ui->show();
+	app->exec();
+    //while (Pexitprogram==0) Fl::wait();
 #endif
     return(0);
 };
@@ -296,7 +301,7 @@ void initprogram(){
     Midi=new NULLMidiIn();
 #endif
 #ifndef DISABLE_GUI
-    ui=new MasterUI(master,&Pexitprogram);
+    //ui=new MasterUI(master,&Pexitprogram);
 #endif
 };
 
@@ -509,7 +514,7 @@ int main(int argc, char *argv[]){
 	} else {
 	    master->applyparameters();
 #ifndef DISABLE_GUI
-	    if (noui==0) ui->refresh_master_ui();
+	    //if (noui==0) ui->refresh_master_ui();
 #endif
 	    printf("Master file loaded.\n");
 	};
@@ -524,7 +529,7 @@ int main(int argc, char *argv[]){
 	} else {
 	    master->part[loadtopart]->applyparameters();
 #ifndef DISABLE_GUI
-	    if (noui==0) ui->refresh_master_ui();
+	    //if (noui==0) ui->refresh_master_ui();
 #endif
 	    printf("Instrument file loaded.\n");
 	};
@@ -746,8 +751,6 @@ long VSTSynth::setChunk(void *data,long size,bool isPreset){
 #endif
 
 #if 0
-#include <QApplication>
-#include "mainwindow.h"
 
 int main(int argc, char **argv)
 {
