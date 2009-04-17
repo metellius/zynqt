@@ -16,7 +16,6 @@ qt4_wrap_ui(zynaddsubfxguilib_UIS_HDRS ${zynaddsubfxguilib_UIS} )
 qt4_automoc(${zynaddsubfxguilib_SRCS})
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-message(${CMAKE_CURRENT_BINARY_DIR})
 add_library(zynaddsubfxguilib STATIC
 	${zynaddsubfxguilib_SRCS}
 	${zynaddsubfxguilib_UIS}

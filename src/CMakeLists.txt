@@ -1,6 +1,21 @@
 FIND_PACKAGE(Qt4)
 INCLUDE(${QT_USE_FILE})
 
+
+#settings
+SET (FFTW_VERSION 3 CACHE STRING "Version number of FFTW")
+SET (AlsaMidiOutput Off CACHE BOOL "set ALSA Midi output")
+SET (JackOutput On CACHE BOOL "set Jack Output")
+
+
+add_definitions(-DFFTW_VERSION_${FFTW_VERSION}
+	 -DOS_LINUX
+	 -DALSAMIDIIN
+	 -DASM_F2I_YES
+	 -DJACKAUDIOOUT
+	 )
+
+
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}/NewUI

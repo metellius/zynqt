@@ -23,9 +23,10 @@
 
 ////
 //#define DISABLE_GUI
-#define ALSAMIDIIN
-#define NONEMIDIIN
-#define OS_LINUX
+//#define ALSAMIDIIN
+//#define OSSAUDIOOUTPUT
+//#define OS_LINUX
+//#define JACK_RTAUDIOOUT
 
 
 
