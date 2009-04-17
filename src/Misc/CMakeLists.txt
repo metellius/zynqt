@@ -18,5 +18,8 @@ add_library(zynaddsubfxgui_misc STATIC
 	${zynaddsubfxgui_misc_SRCS} 
 	)
 
-target_link_libraries(zynaddsubfxgui_misc ${MXML_LIBRARIES}
-${fftw3_LIBRARIES})
+target_link_libraries(zynaddsubfxgui_misc 
+	zynaddsubfxgui_output
+	${MXML_LIBRARIES}
+	${fftw3_LIBRARIES}
+	)

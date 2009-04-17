@@ -9,6 +9,11 @@ add_subdirectory(Misc)
 add_subdirectory(Input)
 add_subdirectory(Output)
 add_subdirectory(NewUI)
+add_subdirectory(Synth)
+add_subdirectory(Seq)
+add_subdirectory(Effects)
+add_subdirectory(Params)
+add_subdirectory(DSP)
 
 set(zynaddsubfxgui_SRCS
 	main.cpp
@@ -20,8 +25,16 @@ add_executable(zynaddsubfxgui
 	${zynaddsubfxgui_SRCS}
 )
 
-target_link_libraries(zynaddsubfxgui zynaddsubfxgui_input
-	zynaddsubfxgui_output zynaddsubfxgui_misc zynaddsubfxguilib)
+target_link_libraries(zynaddsubfxgui
+	zynaddsubfxgui_input
+	zynaddsubfxgui_output
+	zynaddsubfxgui_misc
+	zynaddsubfxgui_synth
+	zynaddsubfxgui_seq
+	zynaddsubfxgui_effect
+	zynaddsubfxgui_params
+	zynaddsubfxgui_dsp
+	zynaddsubfxguilib)
 
 
 

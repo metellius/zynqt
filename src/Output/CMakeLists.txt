@@ -1,6 +1,7 @@
 SET (AlsaMidiOutput On CACHE BOOL "Include ALSA Midi output")
 
 set(zynaddsubfxgui_output_SRCS
+	Recorder.C
 )
 
 if(AlsaMidiOutput)
