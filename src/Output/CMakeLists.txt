@@ -19,6 +19,14 @@ if(JackOutput)
 		)
 endif(JackOutput)
 
+if(PortAudioOutput)
+	FIND_PACKAGE(PortAudio)
+	include_directories(${PORTAUDIO_INCLUDE_DIR})
+	set(zynaddsubfxgui_output_SRCS
+		${zynaddsubfxgui_output_SRCS}
+		PAaudiooutput.C
+		)
+endif(PortAudioOutput)
 
 add_library(zynaddsubfxgui_output STATIC
 	${zynaddsubfxgui_output_SRCS} 
@@ -27,4 +35,5 @@ add_library(zynaddsubfxgui_output STATIC
 target_link_libraries(zynaddsubfxgui_output 
 	${ASOUND_LIBRARY}
 	${JACK_LIBRARIES}
+	${PORTAUDIO_LIBRARIES}
 	)

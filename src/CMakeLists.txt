@@ -5,14 +5,14 @@ INCLUDE(${QT_USE_FILE})
 #settings
 SET (FFTW_VERSION 3 CACHE STRING "Version number of FFTW")
 SET (AlsaMidiOutput Off CACHE BOOL "set ALSA Midi output")
-SET (JackOutput On CACHE BOOL "set Jack Output")
-
+SET (JackOutput Off CACHE BOOL "set Jack Output")
+SET (PortAudioOutput On CACHE BOOL "set Jack Output")
 
 add_definitions(-DFFTW_VERSION_${FFTW_VERSION}
 	 -DOS_LINUX
 	 -DALSAMIDIIN
 	 -DASM_F2I_YES
-	 -DJACKAUDIOOUT
+	 -DPAAUDIOOUT
 	 )
 
 

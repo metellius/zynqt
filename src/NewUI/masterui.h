@@ -13,7 +13,7 @@ class MasterUI : public QMainWindow, Ui::MainWindow
 		MasterUI(Master *master_,int *exitprogram_);
 
 	private slots:
-		void on_quitButton_clicked();
+		void on_action_Quit_triggered();
 		void on_masterVolume_valueChanged(int value);
 
 	private:

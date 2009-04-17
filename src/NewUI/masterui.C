@@ -9,7 +9,7 @@ MasterUI::MasterUI(Master *master_,int *exitprogram_)
 	setupUi(this);
 }
 
-void MasterUI::on_quitButton_clicked()
+void MasterUI::on_action_Quit_triggered()
 {
 	*Pexitprogram = 1;
 }
