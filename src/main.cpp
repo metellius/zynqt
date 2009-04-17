@@ -70,7 +70,7 @@ extern Dump dump;
 
 #ifndef DISABLE_GUI
 #include <QApplication>
-#include "NewUI/masterui.h"
+#include "masterui.h"
 QApplication *app;
 MasterUI *ui;
 #endif
