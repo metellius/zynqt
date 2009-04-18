@@ -19,13 +19,15 @@ class MasterUI : public QMainWindow, Ui::MainWindow
 
 		void on_selectInstrument_clicked();
 
+		void slotDialChanged(int value);
+
 	private:
 		void simpleRefresh();
 		void clearAllParameters();
 
 
 		int *Pexitprogram;
-		Master *m_master;
+		Master *master;
 
 		int ninseff,npart;
 		int nsyseff;

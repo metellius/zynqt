@@ -5,7 +5,7 @@
 MasterUI::MasterUI(Master *master_,int *exitprogram_)
 	: QMainWindow(NULL),
 	Pexitprogram(exitprogram_),
-	m_master(master_),
+	master(master_),
 	m_bankUI(NULL)
 
 {
@@ -16,6 +16,17 @@ MasterUI::MasterUI(Master *master_,int *exitprogram_)
 	nsyseff=0;
 	npart=0;
 	swapefftype=0;
+
+	QList<Dial*> autoConnectDials =
+		QList<Dial*>()
+		<< partVolume
+		<< partPan
+		<< masterVolume;
+
+	foreach(Dial* dial, autoConnectDials) {
+		connect(dial, SIGNAL(valueChanged(int)),
+				this, SLOT(slotDialChanged(int)));
+	}
 
 	simpleRefresh();
 
@@ -29,14 +40,14 @@ void MasterUI::on_partSelector_valueChanged(int value)
 
 void MasterUI::simpleRefresh()
 {
-	partEnabled->setChecked(m_master->part[npart]->Penabled);
-	partFrame->setEnabled(m_master->part[npart]->Penabled);
+	partEnabled->setChecked(master->part[npart]->Penabled);
+	partFrame->setEnabled(master->part[npart]->Penabled);
 
-	partVolume->setValue(m_master->part[npart]->Pvolume);
-	partPan->setValue(m_master->part[npart]->Ppanning);
-	partChannelReceiver->setCurrentIndex(m_master->part[npart]->Prcvchn);
+	partVolume->setValue(master->part[npart]->Pvolume);
+	partPan->setValue(master->part[npart]->Ppanning);
+	partChannelReceiver->setCurrentIndex(master->part[npart]->Prcvchn);
 
-	if (m_master->part[npart]->Pname[0]!=0) currentInstrument->setText((char *)m_master->part[npart]->Pname);
+	if (master->part[npart]->Pname[0]!=0) currentInstrument->setText((char *)master->part[npart]->Pname);
 	else currentInstrument->setText("Click here to load a instrument");
 
 	//simplelistitemgroup->redraw();
@@ -53,7 +64,7 @@ void MasterUI::simpleRefresh()
 void MasterUI::on_selectInstrument_clicked()
 {
 	if (!m_bankUI)
-		m_bankUI = new BankUI(this, m_master, &npart);
+		m_bankUI = new BankUI(this, master, &npart);
 	m_bankUI->show();
 
 #if 0
@@ -88,7 +99,19 @@ void MasterUI::on_action_Quit_triggered()
 
 void MasterUI::on_masterVolume_valueChanged(int value)
 {
-	m_master->setPvolume(value);
+}
+
+void MasterUI::slotDialChanged(int value)
+{
+	if (sender() == partVolume)
+		master->part[npart]->setPvolume(value);
+	else if (sender() == partPan)
+		master->part[npart]->setPpanning(value);
+	else if (sender() == masterVolume)
+		master->setPvolume(value);
+	else
+		qDebug() << "Unknown widget triggered slotDialChanged slot.";
+
 }
 
 #include "masterui.moc"
