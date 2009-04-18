@@ -15,10 +15,28 @@ class MasterUI : public QMainWindow, Ui::MainWindow
 	private slots:
 		void on_action_Quit_triggered();
 		void on_masterVolume_valueChanged(int value);
+		void on_partSelector_valueChanged(int value);
+
+		void on_selectInstrument_clicked();
 
 	private:
+		void simpleRefresh();
+		void clearAllParameters();
+
+
 		int *Pexitprogram;
 		Master *m_master;
+
+		int ninseff,npart;
+		int nsyseff;
+		//SysEffSend *syseffsend[NUM_SYS_EFX][NUM_SYS_EFX];
+		//VirKeyboard *virkeyboard;
+		//ConfigUI *configui;
+		int swapefftype;
+		char masterwindowlabel[100];
+		//Panellistitem *panellistitem[NUM_MIDI_PARTS];
+		
+		class BankUI *m_bankUI;
 };
 
 

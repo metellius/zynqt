@@ -1,11 +1,13 @@
 
 set(zynaddsubfxguilib_SRCS
 	dial.cpp
+	bankui.C
 	masterui.C
 	)
 
 SET( zynaddsubfxguilib_MOC_HDRS
 	masterui.h
+	bankui.h
 )
 
 SET( zynaddsubfxguilib_UIS
