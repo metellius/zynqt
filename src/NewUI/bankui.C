@@ -82,6 +82,7 @@ void BankUI::slotCurrentCellChanged(int, int, int row, int column)
 	currentBank->loadfromslot(id,master->part[*npart]);
     pthread_mutex_unlock(&master->mutex);
     master->part[*npart]->applyparameters();
+	emit changedInstrument();
 }
 
 void BankUI::refreshCurrentBank()

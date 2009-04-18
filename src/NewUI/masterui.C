@@ -48,7 +48,7 @@ void MasterUI::simpleRefresh()
 	partChannelReceiver->setCurrentIndex(master->part[npart]->Prcvchn);
 
 	if (master->part[npart]->Pname[0]!=0) currentInstrument->setText((char *)master->part[npart]->Pname);
-	else currentInstrument->setText("Click here to load a instrument");
+	else currentInstrument->setText("Click here to load an instrument");
 
 	//simplelistitemgroup->redraw();
 	//simplepartportamento->value(master->part[npart]->ctl.portamento.portamento);
@@ -60,11 +60,13 @@ void MasterUI::simpleRefresh()
 
 }
 
-#include "../Misc/Bank.h"
 void MasterUI::on_selectInstrument_clicked()
 {
-	if (!m_bankUI)
+	if (!m_bankUI) {
 		m_bankUI = new BankUI(this, master, &npart);
+		connect(m_bankUI, SIGNAL(changedInstrument()),
+				this, SLOT(simpleRefresh()));
+	}
 	m_bankUI->show();
 
 #if 0

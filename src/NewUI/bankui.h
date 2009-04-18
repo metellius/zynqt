@@ -16,6 +16,9 @@ class BankUI : public QDialog
 		void slotCurrentCellChanged(int, int, int row, int column);
 		void refreshCurrentBank();
 
+	signals:
+		void changedInstrument();
+
 	private:
 		int *npart;
 		Master *master;
