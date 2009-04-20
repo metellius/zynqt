@@ -8,6 +8,7 @@ if(AlsaMidiOutput)
 		${zynaddsubfxgui_output_SRCS}
 		OSSaudiooutput.C
 		)
+	add_definitions(-DOSSAUDIOOUT)
 endif(AlsaMidiOutput)
 
 if(JackOutput)
@@ -17,6 +18,7 @@ if(JackOutput)
 		${zynaddsubfxgui_output_SRCS}
 		JACKaudiooutput.C
 		)
+	add_definitions(-DJACKAUDIOOUT)
 endif(JackOutput)
 
 if(PortAudioOutput)
@@ -26,6 +28,7 @@ if(PortAudioOutput)
 		${zynaddsubfxgui_output_SRCS}
 		PAaudiooutput.C
 		)
+	add_definitions(-PAAUDIOOUT)
 endif(PortAudioOutput)
 
 add_library(zynaddsubfxgui_output STATIC
