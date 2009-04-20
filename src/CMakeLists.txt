@@ -1,12 +1,42 @@
 FIND_PACKAGE(Qt4)
 INCLUDE(${QT_USE_FILE})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
-
-#settings
+#settings. These cache variables can be changed before compile
+#in CMakeCache.txt
 SET (FFTW_VERSION 3 CACHE STRING "Version number of FFTW")
-SET (AlsaMidiOutput Off CACHE BOOL "set ALSA Midi output")
-SET (JackOutput Off CACHE BOOL "set Jack Output")
-SET (PortAudioOutput On CACHE BOOL "set Jack Output")
+SET (OutputModule jack CACHE STRING "Output module, either alsa, jack or portaudio")
+
+
+if (OutputModule STREQUAL alsa)
+	set(AlsaMidiOutput TRUE)
+elseif(OutputModule STREQUAL jack)
+	set(JackOutput TRUE)
+elseif(OutputModule STREQUAL portaudio)
+	set(PortAudioOutput TRUE)
+else ()
+	message(FATAL_ERROR "OutputModule must be either alsa, jack or portaudio")
+endif()
+
+message(STATUS "OutputModule set to ${OutputModule}")
+
+# setting dependent stuff
+if(AlsaMidiOutput)
+	FIND_PACKAGE(Alsa)
+	add_definitions(-DOSSAUDIOOUT)
+endif()
+
+if(JackOutput)
+	FIND_PACKAGE(JACK)
+	include_directories(${JACK_INCLUDE_DIR})
+	add_definitions(-DJACKAUDIOOUT)
+endif()
+
+if(PortAudioOutput)
+	FIND_PACKAGE(PortAudio)
+	include_directories(${PORTAUDIO_INCLUDE_DIR})
+	add_definitions(-DPAAUDIOOUT)
+endif()
 
 add_definitions(-DFFTW_VERSION_${FFTW_VERSION}
 	 -DOS_LINUX
@@ -19,7 +49,6 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}/NewUI
 	${CMAKE_CURRENT_SOURCE_DIR}/NewUI)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 add_subdirectory(Misc)
 add_subdirectory(Input)
@@ -51,9 +80,4 @@ target_link_libraries(zynaddsubfxgui
 	zynaddsubfxgui_params
 	zynaddsubfxgui_dsp
 	zynaddsubfxguilib)
-
-
-
-
-
 
