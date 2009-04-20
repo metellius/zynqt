@@ -19,6 +19,8 @@ class MasterUI : public QMainWindow, Ui::MainWindow
 
 		void on_selectInstrument_clicked();
 
+		void on_editInstrument_clicked();
+
 		void slotDialChanged(int value);
 		void simpleRefresh();
 

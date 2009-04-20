@@ -7,9 +7,12 @@
 
 Dial::Dial(QWidget *parent)
 	: QDial(parent),
-	m_originalMouseY(-1)
+	m_originalMouseY(-1),
+	m_source(0)
 {
 	setMouseTracking(false);
+	connect(this, SIGNAL(valueChanged(int)),
+			this, SLOT(slotUpdateSource()));
 }
 
 void Dial::mousePressEvent(QMouseEvent* event)
@@ -50,7 +53,9 @@ void Dial::paintEvent(class QPaintEvent *event)
 	r.setSize(r.size() * 0.9);
 
 	r.moveCenter(rect().center());
+	p.setBrush(QColor(Qt::white));
 
+	p.drawEllipse(r);
 
 	float v = (float(value()) / (maximum() - minimum())) * 330 * 16 + 15*16;
 
@@ -64,3 +69,18 @@ void Dial::paintEvent(class QPaintEvent *event)
 	//p.drawPoint(10 * 
 
 }
+
+void Dial::setSource(unsigned char *source)
+{
+	m_source = source;
+	setValue(*source);
+}
+
+void Dial::slotUpdateSource()
+{
+	if (m_source) {
+		*m_source = (unsigned char)value();
+	}
+}
+
+#include "dial.moc"

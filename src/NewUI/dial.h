@@ -1,9 +1,17 @@
+#ifndef _DIAL_H_
+#define _DIAL_H_
+
 #include <QDial>
 
 class Dial : public QDial
 {
+	Q_OBJECT
 	public:
 		Dial(QWidget *parent);
+		void setSource(unsigned char* source);
+
+	private slots:
+		void slotUpdateSource();
 
 	private:
 		void mousePressEvent(class QMouseEvent* event);
@@ -13,5 +21,8 @@ class Dial : public QDial
 
 		int m_originalMouseY;
 		int m_originalValueOnPress;
+		unsigned char *m_source;
 
 };
+
+#endif /* #ifndef _DIAL_H_ */

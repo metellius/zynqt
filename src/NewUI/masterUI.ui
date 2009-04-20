@@ -400,7 +400,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0" rowspan="2">
-          <widget class="QPushButton" name="pushButton_8">
+          <widget class="QPushButton" name="editInstrument">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>

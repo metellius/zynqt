@@ -1,5 +1,6 @@
 #include "masterui.h"
 #include "bankui.h"
+#include "addnoteui.h"
 #include <QtDebug>
 
 MasterUI::MasterUI(Master *master_,int *exitprogram_)
@@ -30,6 +31,9 @@ MasterUI::MasterUI(Master *master_,int *exitprogram_)
 
 	simpleRefresh();
 
+	//FIXME
+	on_editInstrument_clicked();
+
 }
 
 void MasterUI::on_partSelector_valueChanged(int value)
@@ -58,6 +62,10 @@ void MasterUI::simpleRefresh()
 	//simplepartkeyshiftcounter->value(master->part[npart]->Pkeyshift-64);
 	//simplesyseffsend->value(master->Psysefxvol[nsyseff][npart]);}
 
+}
+void MasterUI::on_editInstrument_clicked()
+{
+	(new AddNoteUi(master, npart, 0))->show();
 }
 
 void MasterUI::on_selectInstrument_clicked()
