@@ -2,6 +2,7 @@
 #define _DIAL_H_
 
 #include <QDial>
+#include "../globals.h"
 
 class Dial : public QDial
 {
@@ -9,6 +10,7 @@ class Dial : public QDial
 	public:
 		Dial(QWidget *parent);
 		void setSource(unsigned char* source);
+		void setSource(REALTYPE* source);
 
 	private slots:
 		void slotUpdateSource();
@@ -22,6 +24,7 @@ class Dial : public QDial
 		int m_originalMouseY;
 		int m_originalValueOnPress;
 		unsigned char *m_source;
+		REALTYPE *m_realtypeSource;
 
 };
 

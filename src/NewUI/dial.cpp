@@ -5,10 +5,15 @@
 #include <QPainter>
 #include <QConicalGradient>
 
+//drawstyles: 0 - piechart
+//            1 - rotated dial
+static int drawStyle = 1;
+
 Dial::Dial(QWidget *parent)
 	: QDial(parent),
 	m_originalMouseY(-1),
-	m_source(0)
+	m_source(0),
+	m_realtypeSource(0)
 {
 	setMouseTracking(false);
 	connect(this, SIGNAL(valueChanged(int)),
@@ -51,22 +56,37 @@ void Dial::paintEvent(class QPaintEvent *event)
 		r.setWidth(r.height());
 
 	r.setSize(r.size() * 0.9);
-
 	r.moveCenter(rect().center());
-	p.setBrush(QColor(Qt::white));
 
-	p.drawEllipse(r);
+	float v = (float(value()) / (maximum() - minimum())) * 330 + 15;
 
-	float v = (float(value()) / (maximum() - minimum())) * 330 * 16 + 15*16;
+	if (drawStyle == 0) {
+		QConicalGradient grad(r.center(), 270 - 13);
+		p.setBrush(QColor(Qt::white));
 
-	QConicalGradient grad(r.center(), 270 - 13);
-	grad.setColorAt(1, Qt::yellow);
-	grad.setColorAt(0.5, QColor(255, 128, 0));
-	grad.setColorAt(0, Qt::red);
-	p.setBrush(grad);
-	p.drawPie(r, 255*16, -v);
+		p.drawEllipse(r);
 
-	//p.drawPoint(10 * 
+		grad.setColorAt(1, Qt::yellow);
+		grad.setColorAt(0.5, QColor(255, 128, 0));
+		grad.setColorAt(0, Qt::red);
+		p.setBrush(grad);
+		p.drawPie(r, 255*16, -v * 16);
+		//p.drawPoint(10 * 
+	} else if (drawStyle == 1) {
+
+		p.setBrush(QColor(Qt::white));
+
+		p.drawEllipse(r);
+
+		p.translate(r.center());
+		p.rotate(v);
+
+		//QPoint point = r.center();
+		//point.setY(point.y() - r.height() / 2);
+
+		p.drawEllipse(QPoint(0, r.height() / 3), 4, 4);
+
+	}
 
 }
 
@@ -74,13 +94,22 @@ void Dial::setSource(unsigned char *source)
 {
 	m_source = source;
 	setValue(*source);
+	m_realtypeSource = NULL;
+}
+
+void Dial::setSource(REALTYPE *realtypeSource)
+{
+	m_realtypeSource = realtypeSource;
+	setValue((int)(*realtypeSource * 127.0));
+	m_source = NULL;
 }
 
 void Dial::slotUpdateSource()
 {
 	if (m_source) {
 		*m_source = (unsigned char)value();
-	}
+	} else if (m_realtypeSource)
+		*m_realtypeSource = (REALTYPE)(value() / 127.0);
 }
 
 #include "dial.moc"
