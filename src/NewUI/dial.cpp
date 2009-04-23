@@ -4,6 +4,7 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <QConicalGradient>
+#include <math.h>
 
 //drawstyles: 0 - piechart
 //            1 - rotated dial
@@ -58,7 +59,7 @@ void Dial::paintEvent(class QPaintEvent *event)
 	r.setSize(r.size() * 0.9);
 	r.moveCenter(rect().center());
 
-	float v = (float(value()) / (maximum() - minimum())) * 330 + 15;
+	float v = (float(value()) / (maximum() - minimum()));
 
 	if (drawStyle == 0) {
 		QConicalGradient grad(r.center(), 270 - 13);
@@ -74,17 +75,36 @@ void Dial::paintEvent(class QPaintEvent *event)
 		//p.drawPoint(10 * 
 	} else if (drawStyle == 1) {
 
-		p.setBrush(QColor(Qt::white));
+		//p.setBrush(QColor(Qt::white));
 
+		//center circle
 		p.drawEllipse(r);
 
 		p.translate(r.center());
-		p.rotate(v);
+
+		for (float i = -PI/4; i <= (PI+PI/4); i+=PI/6) {
+
+			//draw lots of markers
+			p.drawLine(
+					r.width() * 0.4 * cos(i), -r.height() * 0.4 * sin(i),
+					r.width() * 0.5 * cos(i), -r.height() * 0.5 * sin(i));
+
+			qDebug() << r.size();
+
+		}
+
+		QRect smallRect = r;
+		smallRect.setSize(smallRect.size() * 0.6);
+		smallRect.moveCenter(QPoint(0, 0));
+
+		p.setBrush(palette().alternateBase());
+		p.drawPie(smallRect, 225*16, -v * 270* 16);
+		//p.rotate(v);
 
 		//QPoint point = r.center();
 		//point.setY(point.y() - r.height() / 2);
 
-		p.drawEllipse(QPoint(0, r.height() / 3), 4, 4);
+		//p.drawEllipse(QPoint(0, r.height() / 3), 4, 4);
 
 	}
 
